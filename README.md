@@ -168,13 +168,13 @@ React UI
 
 The frontend sends these requests:
 
-| Action | HTTP request | Purpose |
-| --- | --- | --- |
-| Load notes | `GET /api/notes` | Return all notes |
-| Create note | `POST /api/notes` | Save `{ content, important }` |
-| Change importance | `PUT /api/notes/:id` | Update a note |
-| Load one note | `GET /api/notes/:id` | Return one note |
-| Delete note | `DELETE /api/notes/:id` | Delete a note |
+| Action            | HTTP request            | Purpose                       |
+| ----------------- | ----------------------- | ----------------------------- |
+| Load notes        | `GET /api/notes`        | Return all notes              |
+| Create note       | `POST /api/notes`       | Save `{ content, important }` |
+| Change importance | `PUT /api/notes/:id`    | Update a note                 |
+| Load one note     | `GET /api/notes/:id`    | Return one note               |
+| Delete note       | `DELETE /api/notes/:id` | Delete a note                 |
 
 Example create request:
 
@@ -237,6 +237,7 @@ Run these from the relevant directory:
 Set-Location ".\backend"
 npm run dev       # development server with watch mode
 npm start         # normal server start
+npm run lint      # check backend code with ESLint
 
 # Frontend
 Set-Location "..\frontend"
@@ -245,6 +246,36 @@ npm run build     # production frontend build
 npm run preview   # preview the production build locally
 npm run lint      # check frontend code
 ```
+
+## Backend linting
+
+The backend uses ESLint with a flat configuration in
+`backend/eslint.config.mjs`. ESLint is installed as a development dependency
+because it is a development-time code-quality tool and is not required to run
+the production server.
+
+Run the linter from the backend directory:
+
+```powershell
+Set-Location ".\backend"
+npx eslint index.js   # check one file
+npm run lint          # check the backend project
+```
+
+The backend configuration:
+
+- uses Node globals and CommonJS module syntax;
+- ignores generated files in `backend/dist`;
+- enables ESLint's recommended rules;
+- requires strict equality with `===` and `!==`;
+- checks indentation, Unix (`LF`) line endings, single quotes, and no
+  semicolons;
+- checks trailing spaces, object-brace spacing, and arrow-function spacing;
+- allows `console.log` for server logging.
+
+The VS Code ESLint extension can display these problems directly in the
+editor. When the line-ending rule reports an error on Windows, save the file
+with `LF` line endings using the line-ending selector in VS Code's status bar.
 
 The old `frontend/db.json` and `npm run server` command belong to the earlier
 JSON Server version of the exercise. The current application uses the
